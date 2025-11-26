@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { FaCopy, FaDownload, FaPlay, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
-import { useLayout } from '../context/LayoutContext'; // Import hook
+import { useLayout } from '../context/LayoutContext';
 
 declare global {
   interface Window {
@@ -40,9 +40,13 @@ const RecentPostsView = ({ videos, onCardClick }: { videos: any[], onCardClick: 
 );
 
 export function PlayVideo() {
-  const { id } = useParams<{ id: string }>();
+  const { id: paramsId } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
+  
   const query = searchParams.get('search') || '';
+  const queryId = searchParams.get('v');
+  const id = paramsId || queryId;
+
   const { setShowSearch } = useLayout();
 
   const [videoUrl, setVideoUrl] = useState<string>('');
@@ -60,11 +64,9 @@ export function PlayVideo() {
   const playerInstance = useRef<any>(null);
 
   const randomUrls = [
-    'https://otieu.com/4/10055984',
-    'https://enviousgarbage.com/HE9TFh',
-    'https://aviatorreproducesauciness.com/2082665',
-    'https://adclickad.com/get/?spot_id=6089412&cat=25&subid=2067093145',
-    'https://viikqoye.com/dc/?blockID=388556'
+    'https://otieu.com/4/10209209',
+    'https://plumprush.com/cY2po8',
+    'https://viiukuhe.com/dc/?blockID=406304'
   ];
 
   useEffect(() => {
@@ -132,13 +134,11 @@ export function PlayVideo() {
       return;
     }
 
-    // Fungsi untuk menangani event dan redirect
     const handlePlayerEventRedirect = () => {
         const now = new Date().getTime();
         const lastRedirectTimestamp = sessionStorage.getItem('lastRedirectTimestamp');
         const fifteenSeconds = 15 * 1000;
 
-        // Jika belum ada timestamp atau sudah lebih dari 15 detik
         if (!lastRedirectTimestamp || (now - parseInt(lastRedirectTimestamp, 10)) > fifteenSeconds) {
             const randomUrl = randomUrls[Math.floor(Math.random() * randomUrls.length)];
             window.open(randomUrl, '_blank');
@@ -176,7 +176,6 @@ export function PlayVideo() {
           }
         });
 
-        // Menambahkan event listener ke instance player
         playerInstance.current.on('play', handlePlayerEventRedirect);
         playerInstance.current.on('pause', handlePlayerEventRedirect);
         playerInstance.current.on('seeked', handlePlayerEventRedirect);
@@ -193,7 +192,6 @@ export function PlayVideo() {
     return () => {
       clearInterval(checkInterval);
       if (playerInstance.current) {
-        // .destroy() akan menghapus semua event listener yang terkait secara otomatis
         playerInstance.current.destroy();
         playerInstance.current = null;
       }

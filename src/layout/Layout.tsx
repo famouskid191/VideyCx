@@ -23,7 +23,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <header className="bg-gray-800 fixed top-0 left-0 w-full p-4 text-white flex items-center justify-between shadow-lg z-50">
         <Link to="/" className="flex items-center flex-shrink-0">
           <FaPlayCircle className="mr-3 text-blue-400" size={24} />
-          <h1 className="text-xl font-bold">Lulu Stream</h1>
+          <h1 className="text-xl font-bold">Streaming Indo</h1>
         </Link>
         
         {/* Tampilkan form pencarian hanya jika showSearch bernilai true */}
